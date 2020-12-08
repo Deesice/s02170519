@@ -6,6 +6,7 @@ namespace Contracts
 {
     public class SendData
     {
+        public string Path { get; set; }
         public string TypeName { get; set; }
         public string Data { get; set; }
     }

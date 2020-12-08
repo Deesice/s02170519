@@ -19,10 +19,28 @@ namespace Server.Controllers
         {
             libraryContext = l;
         }
+        //[HttpGet]
+        //public SendData[] Get()
+        //{
+        //    return libraryContext.GetAll().ToArray();
+        //}
         [HttpGet]
         public SendData[] Get()
         {
-            return libraryContext.GetAll().ToArray();
+                var all = libraryContext.GetAll().ToArray();
+                List<SendData> list = new List<SendData>();
+                for (int i = 0; i < (all.Count() - 1) % 10 + 1; i++)
+                    list.Add(null);
+                return list.ToArray();
+        }
+        [HttpGet ("{page}")]
+        public SendData[] Get(int page)
+        {
+            var all = libraryContext.GetAll().ToArray();
+            List<SendData> list = new List<SendData>();
+            for (int i = page * 10; i < Math.Min((page + 1) * 10, all.Count()); i++)
+                list.Add(all[i]);
+            return list.ToArray();
         }
         [HttpPut]
         public string Put(SendData input)

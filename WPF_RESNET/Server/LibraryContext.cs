@@ -109,6 +109,7 @@ namespace Server
                 var s = new SendData();
                 s.Data = Convert.ToBase64String(f.FileDetails.Data);
                 s.TypeName = f.Type.TypeName;
+                s.Path = f.Path;
                 yield return s;
             }
         }
@@ -119,7 +120,7 @@ namespace Server
             var f = new File() { Hash = input.Data.GetDeterministicHashCode() };            
             f.FileDetails = new FileDetails() { Data = Convert.FromBase64String(input.Data) };
             f.NumberOfRequests = 1;
-            f.Path = "";
+            f.Path = input.Path;
 
             if (query.Count() == 0) //если новый класс
             {

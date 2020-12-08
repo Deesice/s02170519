@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.js"></script>
+</head>
+<body>
+    <div id="buttons"></div>
+    <ul id="list">
+    </ul>
+    <script type="text/javascript">
+        function Clear() {
+            document.getElementById("list").innerHTML = ""
+        }
+        function AddItem(name, imagePath) {
+            document.getElementById("list").innerHTML += "<div>"+ name + "</div><img src=\"data:image/png;base64," + imagePath + "\" width = 50 height = 50/>"
+        }
+        function OnClick(name) {
+            AddItem(name, "https://lh3.googleusercontent.com/proxy/P9rhs0kWYmwoS8LJVG5p-eHlyj0Z-8K2M5iceq-v2UrDNjqnKSLOmARiqYYu1bt-LdrM5O0yGzK1XuBBjuyXW7H7VuCJo9hXV5w5XTK6y-SMvKrn29qjlw")
+        }
+        async function LoadPage(page) {
+            Clear()
+            try {
+                var response = await fetch("http://localhost:5000/main/" + page)
+                var json = await response.json()
+                for (var i = 0; i < json.length; i++)
+                    AddItem("Name: " + json[i].path + "; Class: " + json[i].typeName, json[i].data)
+            }
+            catch(e)
+            {
+                window.alert(e)
+            }
+        }
+        async function GetPages() {
+            try {
+                var response = await fetch("http://localhost:5000/main")
+                var json = await response.json()
+                for (var i = 0; i < json.length; i++)
+                    document.getElementById("buttons").innerHTML += "<button onclick=\"LoadPage(" + i + ")\">"+(i+1)+"</button>"
+            }
+            catch (e) {
+                window.alert(e)
+            }
+        }
+        GetPages()
+        //AddItem("Lox", "https://lh3.googleusercontent.com/proxy/P9rhs0kWYmwoS8LJVG5p-eHlyj0Z-8K2M5iceq-v2UrDNjqnKSLOmARiqYYu1bt-LdrM5O0yGzK1XuBBjuyXW7H7VuCJo9hXV5w5XTK6y-SMvKrn29qjlw")
+    </script>
+</body>
+</html>

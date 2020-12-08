@@ -28,6 +28,7 @@ namespace WPF_RESNET
         public async void ProcessPicture(string file)
         {
             var data = new SendData();
+            data.Path = file;
             data.Data = Convert.ToBase64String(System.IO.File.ReadAllBytes(file));
 
             var j = JsonConvert.SerializeObject(data);
